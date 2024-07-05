@@ -100,7 +100,7 @@
                             @endforeach
                         </td>
 
-                        <td scope="row">{{ $user->status }}</td>
+                        <td scope="row">{{ $user->status }}</td>  
 
                     </tr>
                 @endforeach
