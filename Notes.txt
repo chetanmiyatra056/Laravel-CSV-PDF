@@ -1,0 +1,96 @@
+// Start project:
+php artisan serve
+
+
+// Create controller:
+php artisan make:Controller Frontend\HomeController
+
+php artisan make:Controller Frontend\RegisterController
+
+php artisan make:Controller Frontend\LoginController
+
+php artisan make:Controller Frontend\WelcomeController
+
+php artisan make:Controller Frontend\EditController
+
+php artisan make:Controller Frontend\EditPasswordController
+
+php artisan make:Controller Frontend\LogoutController
+
+php artisan make:controller Frontend\DropDownController
+
+php artisan make:controller Frontend\SellerController
+
+php artisan make:controller Frontend\SellerlogoutController
+
+php artisan make:controller Frontend\UserlogoutController
+
+php artisan make:controller Frontend\ListController
+
+
+// Update migrate
+php artisan migrate
+
+
+// Clean config cache
+php artisan config:cache
+
+// Update optimize
+php artisan optimize
+
+
+// Create middleware
+php artisan make:middleware login
+
+php artisan make:middleware Notlogin
+
+php artisan make:middleware Type
+
+
+// Create migration
+php artisan make:migration add_profile_field_to_users
+
+php artisan make:migration add_countries_field_to_users
+
+php artisan make:migration add_states_field_to_users
+
+php artisan make:migration create_profile_table
+
+php artisan make:migration add_hobbies_field_to_users
+
+php artisan make:migration add_type_field_to_users
+
+
+// Link storage
+php artisan storage:link
+
+
+// Create model
+php artisan make:model Profile
+
+
+// Create model with migration
+php artisan make:model Country -m
+
+php artisan make:model State -m
+
+php artisan make:model City -m
+
+
+// Create factory with model 
+php artisan make:factory ProfileFactory --model=Profile
+
+
+// Create seeder
+php artisan make:seeder ProfileSeeder
+
+password :- qnvcacpowiapidco
+
+php artisan make:model CSV_Download -mfsc
+
+composer require barryvdh/laravel-dompdf
+
+composer remove barryvdh/laravel-dompdf
+
+composer dump-autoload
+
