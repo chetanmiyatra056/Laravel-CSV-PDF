@@ -43,6 +43,11 @@ Route::get("/list", [ListController::class, "list"])->name("list");
 Route::get("/pdf", [ListController::class, "pdf"])->name("pdf");
 
 Route::get('/export-csv', [CSVDownloadController::class, 'exportCSV'])->name('export');
+
+// Route::get('/import-csv', [CSVDownloadController::class, 'import'])->name('import');
+
+Route::post('import-csv', [CSVDownloadController::class, 'importCSV'])->name('importCSV');
+
 Route::get('/export-pdf', [CSVDownloadController::class, 'downloadPDF'])->name('downloadPDF');
 
 Route::group(['middleware' => 'notlogin'], function () {

@@ -2,12 +2,32 @@
 
 @section('main-container')
     <div class="my-5">
+
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" id="alert">
+                {{ session()->get('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="container my-3">
             <h1 class="text-center">All User List</h1>
 
-            <div class="container">
-                <a href="{{ url('/export-csv') }}" class="btn btn-primary btn" type="button">CSV</a>
-                <a href="{{ url('/export-pdf') }}" class="btn btn-primary btn" type="button">PDF</a>
+            <div class="row my-3">
+                <div class="me-5 mb-2 mb-lg-0 col">
+                    <a href="{{ url('/export-csv') }}" class="btn btn-success btn" type="button">Export CSV</a>
+
+                    <a href="{{ url('/export-pdf') }}" class="btn btn-info btn" type="button">PDF</a>
+                </div>
+
+                <form class="d-flex col-md-4" action=" ">
+                    <input class="form-control me-2" style="float:right;" type="search" name="search" id=""
+                        placeholder="Search" value="{{ $search }}">
+                    <button class="btn btn-outline-info mx-2" type="submit">Search</button>
+                    <a href="{{ url('/list') }}">
+                        <button class="btn btn-outline-danger" type="button">Reset</button>
+                    </a>
+                </form>
             </div>
 
             <table class="table table-striped table-dark table-bordered table-hover my-3">
@@ -28,6 +48,7 @@
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     @php
                         $count = 0;
@@ -98,7 +119,21 @@
                         </tr>
                     @endforeach
                 </tbody>
+
             </table>
+
+            <hr>
+
+            <form action="{{ route('importCSV') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="fields col-md-4">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="import_csv" name="import_csv" accept=".csv">
+                        {{-- <label class="input-group-text" for="import_csv">Upload</label> --}}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Import CSV</button>
+            </form>
 
         </div>
     </div>

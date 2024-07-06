@@ -11,6 +11,12 @@ class Country extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $fillable = [
+        'name',
+        'shortname',
+        'phonecode',
+    ];
+
     public function users()
     {
         return $this->hasMany(User::class);

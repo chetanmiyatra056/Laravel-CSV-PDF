@@ -150,9 +150,9 @@
 
                 <div class="form-group mb-3">
                     <label for="date" class="form-label">Select Date Of Birth</label>
-
-                    <input type="date" min="2000-01-01" data-date="" data-date-format="DD/MM/YYYY"
-                        class="input form-control datepicker" name="date" id="date" placeholder="DD/MM/YYYY">
+ 
+                    <input type="date" placeholder="DD/MM/YYYY" min="2000-01-01" data-date="" data-date-format="DD/MM/YYYY"
+                        class="input form-control datepicker" name="date" id="date">
 
                     <span class="text-danger">
                         @error('date')
