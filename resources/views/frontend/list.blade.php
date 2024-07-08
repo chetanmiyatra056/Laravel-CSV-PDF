@@ -4,10 +4,10 @@
 <div class="my-5">
 
     @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" id="alert">
-            {{ session()->get('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" id="alert">
+        {{ session()->get('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
     <div class="container my-3">
@@ -19,14 +19,14 @@
 
                     <a href="{{ url('/export-pdf') }}" class="btn btn-info btn" type="button">PDF</a>
                 </div> -->
-            <!--
-            <form class="d-flex col-md-4" action=" "> -->
-            <input class="form-control me-2" style="float:right;" type="text" name="search" id="search"
-                placeholder="Search" value="{{ $search }}">
-            <!-- <button class="btn btn-outline-info mx-2" type="submit">Search</button> -->
-            <a href="{{ url('/list') }}">
-                <button class="btn btn-outline-danger" type="button">Reset</button>
-            </a>
+
+            <form class="d-flex col-md-4" action=" ">
+                <input class="form-control me-2" style="float:right;" type="text" name="search" id="search"
+                    placeholder="Search" value="{{ $search }}">
+                <!-- <button class="btn btn-outline-info mx-2" type="submit">Search</button> -->
+                <a href="{{ url('/list') }}">
+                    <button class="btn btn-outline-danger" type="button">Reset</button>
+                </a>
             </form>
         </div>
 
@@ -51,71 +51,71 @@
 
             <tbody id="user-table">
                 @php
-                    $count = 0;
+                $count = 0;
                 @endphp
                 @foreach ($users as $user)
-                                @php
-                                    $count = $count + 1;
-                                @endphp
-                                <tr>
-                                    <th scope="row">
-                                        @php
-                                            echo $count;
-                                        @endphp
-                                    </th>
+                @php
+                $count = $count + 1;
+                @endphp
+                <tr>
+                    <th scope="row">
+                        @php
+                        echo $count;
+                        @endphp
+                    </th>
 
-                                    <td scope="row">{{ $user->name }}</td>
+                    <td scope="row">{{ $user->name }}</td>
 
-                                    <td scope="row">{{ $user->email }}</td>
+                    <td scope="row">{{ $user->email }}</td>
 
-                                    @php
-                                        $country = DB::table('countries')
-                                            ->where('id', $user->countries)
-                                            ->first();
-                                    @endphp
-                                    <td scope="row">{{ $country->name }}</td>
+                    @php
+                    $country = DB::table('countries')
+                    ->where('id', $user->countries)
+                    ->first();
+                    @endphp
+                    <td scope="row">{{ $country->name }}</td>
 
-                                    @php
-                                        $state = DB::table('states')
-                                            ->where('id', $user->states)
-                                            ->first();
-                                    @endphp
-                                    <td scope="row">{{ $state->name }}</td>
+                    @php
+                    $state = DB::table('states')
+                    ->where('id', $user->states)
+                    ->first();
+                    @endphp
+                    <td scope="row">{{ $state->name }}</td>
 
-                                    @php
-                                        $cities = DB::table('cities')
-                                            ->where('id', $user->cities)
-                                            ->first();
-                                    @endphp
+                    @php
+                    $cities = DB::table('cities')
+                    ->where('id', $user->cities)
+                    ->first();
+                    @endphp
 
-                                    <td scope="row">{{ $cities->name }}</td>
+                    <td scope="row">{{ $cities->name }}</td>
 
-                                    <td scope="row">{{ $user->hobbies }}</td>
+                    <td scope="row">{{ $user->hobbies }}</td>
 
-                                    <td scope="row">{{ $user->gender }}</td>
+                    <td scope="row">{{ $user->gender }}</td>
 
-                                    <td scope="row">{{ $user->date_of_birth }}</td>
+                    <td scope="row">{{ $user->date_of_birth }}</td>
 
-                                    <td scope="row">{{ $user->type }}</td>
+                    <td scope="row">{{ $user->type }}</td>
 
-                                    @php
-                                        $profiles = DB::table('profiles')
-                                            ->where('user_id', $user->id)
-                                            ->get();
-                                    @endphp
+                    @php
+                    $profiles = DB::table('profiles')
+                    ->where('user_id', $user->id)
+                    ->get();
+                    @endphp
 
-                                    <td scope="row">
-                                        @foreach ($profiles as $item)
-                                                            @php
-                                                                $uploads = $item->upload;
-                                                            @endphp
-                                                            <img src="{{ 'uploads/' . $uploads }}" alt="img error" width="50" class="img-thumbnail">
-                                        @endforeach
-                                    </td>
+                    <td scope="row">
+                        @foreach ($profiles as $item)
+                        @php
+                        $uploads = $item->upload;
+                        @endphp
+                        <img src="{{ 'uploads/' . $uploads }}" alt="img error" width="50" class="img-thumbnail">
+                        @endforeach
+                    </td>
 
-                                    <td scope="row">{{ $user->status }}</td>
+                    <td scope="row">{{ $user->status }}</td>
 
-                                </tr>
+                </tr>
                 @endforeach
             </tbody>
 
@@ -137,23 +137,23 @@
     </div>
 
     <script>
-        $(document).ready(function () {
-            $('#search').on('keyup', function () {
-                let query = $(this).val();
-                if (query.length === 0) {
-                    location.reload();
-                } else {
-                    $.ajax({
-                        url: "{{ route('search.suggestions') }}",
-                        type: "GET",
-                        data: {
-                            'query': query
-                        },
-                        success: function (data) {
-                            let tableBody = $('#user-table');
-                            tableBody.empty();
-                            $.each(data, function (index, user) {
-                                tableBody.append(`
+    $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            let query = $(this).val();
+            if (query.length === 0) {
+                location.reload();
+            } else {
+                $.ajax({
+                    url: "{{ route('search.suggestions') }}",
+                    type: "GET",
+                    data: {
+                        'query': query
+                    },
+                    success: function(data) {
+                        let tableBody = $('#user-table');
+                        tableBody.empty();
+                        $.each(data, function(index, user) {
+                            tableBody.append(`
                                         <tr>
                                             <td>${index + 1}</td>
                                             <td>${user.name}</td>
@@ -169,12 +169,12 @@
                                             <td>${user.status}</td>
                                         </tr>
                                     `);
-                            });
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
+            }
         });
+    });
     </script>
 
 </div>

@@ -110,45 +110,46 @@ class ListController extends Controller
         $suggestions = [];
 
         if ($search != "") {
+            $countryId = DB::table('countries')
+                ->where('name', 'LIKE', "%$search%")
+                ->pluck('id');
+
+            $stateId = DB::table('states')
+                ->where('name', 'LIKE', "%$search%")
+                ->pluck('id');
+
+            $cityId = DB::table('cities')
+                ->where('name', 'LIKE', "%$search%")
+                ->pluck('id');
+
             $users = User::where('name', 'LIKE', "%$search%")
                 ->orWhere('email', 'LIKE', "%$search%")
+                ->orWhereIn('countries', $countryId)
+                ->orWhereIn('states', $stateId)
+                ->orWhereIn('cities', $cityId)
                 ->get();
-
-            // $users = User::with(['countries', 'states', 'cities'])
-            //     ->where('name', 'LIKE', "%$search%")
-            //     ->orWhere('email', 'LIKE', "%$search%")
-            // ->orWhereHas('countries', function ($query) use ($search) {
-            //     $query->where('name', 'LIKE', "%$search%");
-            // })
-            // ->orWhereHas('states', function ($query) use ($search) {
-            //     $query->where('name', 'LIKE', "%$search%");
-            // })
-            // ->orWhereHas('cities', function ($query) use ($search) {
-            //     $query->where('name', 'LIKE', "%$search%");
-            // })
-            // ->get();
 
 
             foreach ($users as $user) {
 
-                // $country = DB::table('countries')
-                //     ->where('id', $user->countries)
-                //     ->first();
+                $country = DB::table('countries')
+                    ->where('id', $user->countries)
+                    ->first();
 
-                // $state = DB::table('states')
-                //     ->where('id', $user->states)
-                //     ->first();
+                $state = DB::table('states')
+                    ->where('id', $user->states)
+                    ->first();
 
-                // $cities = DB::table('cities')
-                //     ->where('id', $user->cities)
-                //     ->first();
+                $cities = DB::table('cities')
+                    ->where('id', $user->cities)
+                    ->first();
 
                 $suggestions[] = [
                     'name' => $user->name,
                     'email' => $user->email,
-                    'countries' => $user->countries ?? '',
-                    'states' => $user->states ?? '',
-                    'cities' => $user->cities ?? '',
+                    'countries' => $country->name ?? '',
+                    'states' => $state->name ?? '',
+                    'cities' => $cities->name ?? '',
                     'hobbies' => $user->hobbies,
                     'gender' => $user->gender,
                     'date_of_birth' => $user->date_of_birth,
