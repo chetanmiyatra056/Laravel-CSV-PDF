@@ -21,9 +21,9 @@
                 </div>
 
                 <form class="d-flex col-md-4" action=" ">
-                    <input class="form-control me-2" style="float:right;" type="search" name="search" id=""
-                        placeholder="Search" value="{{ $search }}">
-                    <button class="btn btn-outline-info mx-2" type="submit">Search</button>
+                    <input class="form-control me-2" style="float:right;" type="text" name="search" id="search"
+                        placeholder="Search" value="">
+                    {{-- <button class="btn btn-outline-info mx-2" type="submit">Search</button> --}}
                     <a href="{{ url('/list') }}">
                         <button class="btn btn-outline-danger" type="button">Reset</button>
                     </a>
@@ -49,7 +49,7 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody id="user-table">
                     @php
                         $count = 0;
                     @endphp
@@ -137,4 +137,45 @@
 
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#search').on('keyup', function() {
+                let query = $(this).val();
+                if (query.length === 0) {
+                    location.reload();
+                } else {
+                    $.ajax({
+                        url: "{{ route('search.suggestions') }}",
+                        type: "GET",
+                        data: {
+                            'query': query
+                        },
+                        success: function(data) {
+                            let tableBody = $('#user-table');
+                            tableBody.empty();
+                            $.each(data, function(index, user) {
+                                tableBody.append(`
+                                <tr>
+                                    <td scope="row">${index + 1}</td>
+                                    <td scope="row">${user.name}</td>
+                                    <td scope="row">${user.email}</td>
+                                    <td scope="row">${user.countries}</td>
+                                    <td scope="row">${user.states}</td>
+                                    <td scope="row">${user.cities}</td>
+                                    <td scope="row">${user.hobbies}</td>
+                                    <td scope="row">${user.gender}</td>
+                                    <td scope="row">${user.date_of_birth}</td>
+                                    <td scope="row">${user.type}</td>
+                                    <td>${user.profile}</td>
+                                    <td scope="row">${user.status}</td>
+                                </tr>
+                            `);
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

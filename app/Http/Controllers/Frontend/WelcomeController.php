@@ -11,3 +11,4 @@ class WelcomeController extends Controller
         return view("frontend.welcome");
     }
 }
+

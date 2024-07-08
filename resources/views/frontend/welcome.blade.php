@@ -71,8 +71,8 @@
                     <div>
                         {{-- <h3 class="date">Date of Birth :- {{ Auth::User()->date_of_birth }}</h3> --}}
                         <h3 class="date">Date of Birth :- @php
-                             $newDate = date("d-m-Y", strtotime(Auth::User()->date_of_birth));
-                             echo $newDate;
+                            $newDate = date('d-m-Y', strtotime(Auth::User()->date_of_birth));
+                            echo $newDate;
                         @endphp</h3>
                     </div>
                     <hr>

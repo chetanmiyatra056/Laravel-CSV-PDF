@@ -50,6 +50,8 @@ Route::post('import-csv', [CSVDownloadController::class, 'importCSV'])->name('im
 
 Route::get('/export-pdf', [CSVDownloadController::class, 'downloadPDF'])->name('downloadPDF');
 
+Route::get('/search-suggestions', [ListController::class, 'searchSuggestions'])->name('search.suggestions');
+
 Route::group(['middleware' => 'notlogin'], function () {
     
     
