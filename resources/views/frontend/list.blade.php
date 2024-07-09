@@ -39,7 +39,6 @@
                     <th scope="col">Country</th>
                     <th scope="col">State</th>
                     <th scope="col">City</th>
-                    {{-- <th scope="col">Password</th> --}}
                     <th scope="col">Hobbies</th>
                     <th scope="col">Gender</th>
                     <th scope="col">Date of Birth</th>
@@ -141,7 +140,10 @@
         $('#search').on('keyup', function() {
             let query = $(this).val();
             if (query.length === 0) {
-                location.reload();
+                // location.reload();
+                // $('#user-table').empty();
+                $('#search').val('');
+                document.getElementById('search').focus();
             } else {
                 $.ajax({
                     url: "{{ route('search.suggestions') }}",
