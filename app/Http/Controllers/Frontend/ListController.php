@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Country;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -69,66 +68,98 @@ class ListController extends Controller
         $suggestions = [];
 
         if ($search != "") {
-            // $users = User::where('name', 'LIKE', "%$search%")
-            //     ->orWhere('email', 'LIKE', "%$search%")
-            //     ->get();
+            // $countryId = DB::table('countries')
+            //     ->where('name', '=', $search)
+            //     ->pluck('id');
 
-            //     $users = User::with('Country', function($query) use ($search) {
-            //         $query->where('name', 'LIKE', '%' . $search . '%');
-            //    })->get();
+            // $stateId = DB::table('states')
+            //     ->where('name', '=', $search)
+            //     ->pluck('id');
 
+            // $cityId = DB::table('cities')
+            //     ->where('name', '=', $search)
+            //     ->pluck('id');
 
-            // $country = Country::where('name', 'LIKE', "%$search%")
+            // $users = User::
+            // where('name', '=', $search)
+            // ->orWhere('email', '=', $search)
+            // // ->orWhere('email', 'LIKE', "%$search%")
+            // ->orWhereIn('countries', $countryId)
+            // ->orWhereIn('states', $stateId)
+            // ->orWhereIn('cities', $cityId)
             // ->get();
 
-            // if ($country) {
-            // $users = User::where('countries', 'LIKE', "$country->id")->first();
-            // }
-
-            $users = User::with(['Country', 'State', 'City'])
-                ->where('name', 'LIKE', "%$search%")
-                ->orWhere('email', 'LIKE', "%$search%")
-                // ->orWhereHas('Country', function ($query) use ($search) {
-                //     $query->where('name', 'LIKE', "%$search%");
-                // })
-                // ->orWhereHas('State', function ($query) use ($search) {
-                //     $query->where('name', 'LIKE', "%$search%");
-                // })
-                // ->orWhereHas('City', function ($query) use ($search) {
-                //     $query->where('name', 'LIKE', "%$search%");
-                // })
+            $users = DB::table('users')
+                
+                // ->leftJoin('countries', 'users.countries', '=', 'countries.id')
+                ->where('name', '=', $search)
+                ->orWhere('email', '=', $search)
+                // ->orWhere('countries.name', 'LiKE', "%$search%")
+                ->select(
+               
+                    // 'countries.name as countries_name',
+                
+                )
                 ->get();
 
 
+
+            // $users = DB::table('users')
+            // ->select(
+            //     'countries.name as countries_name',
+            //     'states.name as states_name',
+            //     'cities.name as cities_name',
+            // )
+            // ->join('countries', 'users.countries', '=', 'countries.id')
+            // ->join('states', 'users.states', '=', 'states.id')
+            // ->join('cities', 'users.cities', '=', 'cities.id')
+            // ->where('name', '=', $search)
+            // ->get();
+
             foreach ($users as $user) {
 
-                $country = DB::table('countries')
-                    ->where('id', $user->countries)
+                // $country = DB::table('countries')
+                //     ->where('id', $user->countries)
+                //     ->first();
+
+                // $state = DB::table('states')
+                //     ->where('id', $user->states)
+                //     ->first();
+
+                // $cities = DB::table('cities')
+                //     ->where('id', $user->cities)
+                //     ->first();
+
+                $data = DB::table('users')
+                    ->select(
+                        'countries.name as countries_name',
+                        'states.name as states_name',
+                        'cities.name as cities_name',
+                    )
+                    ->join('countries', 'users.countries', '=', 'countries.id')
+                    ->join('states', 'users.states', '=', 'states.id')
+                    ->join('cities', 'users.cities', '=', 'cities.id')
+                    ->where('users.id', $user->id)
                     ->first();
 
-                $state = DB::table('states')
-                    ->where('id', $user->states)
-                    ->first();
+                $profiles = DB::table('profiles')
+                    ->where('user_id', $user->id)
+                    ->get();
 
-                $cities = DB::table('cities')
-                    ->where('id', $user->cities)
-                    ->first();
-
-                // $profiles = DB::table('profiles')
-                //     ->where('user_id', $user->id)
-                //     ->get();
+                $uploads = $profiles->pluck('upload')->toArray();
+                $uploadsString = implode(", ", $uploads);
 
                 $suggestions[] = [
                     'name' => $user->name,
                     'email' => $user->email,
-                    'countries' => $country->name ?? '',
-                    'states' => $state->name ?? '',
-                    'cities' => $cities->name ?? '',
+                    'countries' => $data->countries_name ?? '',
+                    'states' => $data->states_name ?? '',
+                    'cities' => $data->cities_name ?? '',
                     'hobbies' => $user->hobbies,
                     'gender' => $user->gender,
                     'date_of_birth' => $user->date_of_birth,
                     'type' => $user->type,
-                    // 'profiles' => $profiles,
+                    'profiles' => $uploadsString,
                     'status' => $user->status,
                 ];
             }

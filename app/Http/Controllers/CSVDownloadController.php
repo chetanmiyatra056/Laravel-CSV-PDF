@@ -37,7 +37,6 @@ class CSVDownloadController extends Controller
                 'gender',
                 'date_of_birth',
                 'type',
-                // 'password',
                 'profile',
                 'status',
             ]);

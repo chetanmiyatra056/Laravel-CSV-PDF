@@ -10,7 +10,7 @@
             </div>
         @endif
 
-        <div class="container my-3">
+        <div class="container my-3 allContent-section">
             <h1 class="text-center">All User List</h1>
 
             <div class="row my-3">
@@ -30,7 +30,7 @@
                 </form>
             </div>
 
-            <table class="table table-striped table-dark table-bordered table-hover my-3">
+            <table class="table table-striped table-dark table-bordered table-hover my-3 ">
                 <thead>
                     <tr>
                         <th scope="col">Sr No.</th>
@@ -39,7 +39,6 @@
                         <th scope="col">Country</th>
                         <th scope="col">State</th>
                         <th scope="col">City</th>
-                        {{-- <th scope="col">Password</th> --}}
                         <th scope="col">Hobbies</th>
                         <th scope="col">Gender</th>
                         <th scope="col">Date of Birth</th>
@@ -143,7 +142,26 @@
             $('#search').on('keyup', function() {
                 let query = $(this).val();
                 if (query.length === 0) {
-                    location.reload();
+                    // location.reload();
+
+                    let tableBody = $('#user-table');
+                            tableBody.record();
+                    
+                    $.ajax({
+                        url: "{{ route('list') }}",
+                        type: "GET",
+                        data: {
+                            record: 0,
+                        },
+                        success: function(data) {
+                            // let tableBody = $('#user-table');
+                            // tableBody.record();
+                            let name = document.getElementById("search");
+                            name.focus();
+                            // location.record();
+                            // $(".allContent-section").html(data);
+                        },
+                    });
                 } else {
                     $.ajax({
                         url: "{{ route('search.suggestions') }}",
@@ -167,7 +185,7 @@
                                     <td scope="row">${user.gender}</td>
                                     <td scope="row">${user.date_of_birth}</td>
                                     <td scope="row">${user.type}</td>
-                                    <td>${user.profile}</td>
+                                    <td scope="row">${user.profiles}</td>
                                     <td scope="row">${user.status}</td>
                                 </tr>
                             `);
