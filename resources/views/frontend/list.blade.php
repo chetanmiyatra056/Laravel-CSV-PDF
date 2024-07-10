@@ -1,7 +1,7 @@
 @extends('frontend.layouts.main')
 
 @section('main-container')
-    <div class="my-5">
+    <div class="my-5 allContent-section">
 
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show" id="alert">
@@ -10,22 +10,40 @@
             </div>
         @endif
 
-        <div class="container my-3 allContent-section">
+        <div class="container my-3">
             <h1 class="text-center">All User List</h1>
 
             <div class="row my-3">
                 <div class="me-5 mb-2 mb-lg-0 col">
-                    <a href="{{ url('/export-csv') }}" class="btn btn-success btn" type="button">Export CSV</a>
+                    <a href="{{ url('/export-csv') }}" class="btn btn-success btn mt-4" type="button">Export CSV</a>
 
-                    <a href="{{ url('/export-pdf') }}" class="btn btn-info btn" type="button">PDF</a>
+                    <a href="{{ url('/export-pdf') }}" class="btn btn-info btn mt-4" type="button">PDF</a>
                 </div>
 
-                <form class="d-flex col-md-4" action=" ">
-                    <input class="form-control me-2" style="float:right;" type="text" name="search" id="search"
-                        placeholder="Search" value="">
-                    {{-- <button class="btn btn-outline-info mx-2" type="submit">Search</button> --}}
+                <form class="d-flex col-md-6" action="">
+
+                    <div class="mx-2">
+                        <label for="">Start Date:</label>
+                        <input class="form-control me-2" style="float:right;" type="date" name="startdate" id="startdate"
+                            placeholder="DD-MM-YYYY">
+                    </div>
+
+                    <div class="mx-2">
+                        <label for="">End Date:</label>
+                        <input class="form-control me-2" style="float:right;" type="date" name="enddate" id="enddate"
+                            placeholder="DD-MM-YYYY">
+                    </div>
+
+                    {{-- <div class="mx-2">
+                        <label for="">Search:</label>
+                        <input class="form-control me-2" style="float:right;" type="text" name="search" id="search"
+                            placeholder="Search" value="">
+                    </div> --}}
+
+                    {{-- <button class="btn btn-outline-info mx-2 mt-4" type="submit">Search</button> --}}
+
                     <a href="{{ url('/list') }}">
-                        <button class="btn btn-outline-danger" type="button">Reset</button>
+                        <button class="btn btn-outline-danger mt-4" type="button">Reset</button>
                     </a>
                 </form>
             </div>
@@ -137,31 +155,27 @@
         </div>
     </div>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#search').on('keyup', function() {
                 let query = $(this).val();
                 if (query.length === 0) {
                     // location.reload();
+                    // $('#search').val('');
+                    // document.getElementById('search').focus();
 
-                    let tableBody = $('#user-table');
-                            tableBody.record();
-                    
-                    $.ajax({
-                        url: "{{ route('list') }}",
-                        type: "GET",
-                        data: {
-                            record: 0,
-                        },
-                        success: function(data) {
-                            // let tableBody = $('#user-table');
-                            // tableBody.record();
-                            let name = document.getElementById("search");
-                            name.focus();
-                            // location.record();
-                            // $(".allContent-section").html(data);
-                        },
-                    });
+                    // $.ajax({
+                    //     url: "{{ route('list') }}",
+                    //     method: "get",
+                    //     data: {
+                    //         record: 1,
+                    //     },
+                    //     success: function(data) {
+                    //         $("main-container").html(data);
+                    //         document.getElementById('search').focus();
+                    //     },
+                    // });
+
                 } else {
                     $.ajax({
                         url: "{{ route('search.suggestions') }}",
@@ -194,6 +208,79 @@
                     });
                 }
             });
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById("startdate").setAttribute("max", today);
+            document.getElementById("enddate").setAttribute("max", today);
+
+            $('#enddate').on('keyup', function() {
+                let query = $(this).val();
+                $.ajax({
+                    url: "{{ route('search.suggestions') }}",
+                    type: "GET",
+                    data: {
+                        'query': query
+                    },
+                    success: function(data) {
+                        let tableBody = $('#user-table');
+                        tableBody.empty();
+                        $.each(data, function(index, user) {
+                            tableBody.append('\
+                            <tr>\
+                                <td scope="row">' + (index + 1) + '</td>\
+                                <td scope="row">' + user.name + '</td>\
+                                <td scope="row">' + user.email + '</td>\
+                                <td scope="row">' + user.countries + '</td>\
+                                <td scope="row">' + user.states + '</td>\
+                                <td scope="row">' + user.cities + '</td>\
+                                <td scope="row">' + user.hobbies + '</td>\
+                                <td scope="row">' + user.gender + '</td>\
+                                <td scope="row">' + user.date_of_birth + '</td>\
+                                <td scope="row">' + user.type + '</td>\
+                                <td scope="row">' + user.profiles + '</td>\
+                                <td scope="row">' + user.status + '</td>\
+                            </tr>');
+                        });
+                    }
+                });
+            })
+
+            // $('#search').on('keyup', function() {
+            //     let query = $(this).val();
+            //     $.ajax({
+            //         url: "{{ route('search.suggestions') }}",
+            //         type: "GET",
+            //         data: {
+            //             'query': query
+            //         },
+            //         success: function(data) {
+            //             let tableBody = $('#user-table');
+            //             tableBody.empty();
+            //             $.each(data, function(index, user) {
+            //                 tableBody.append('\
+            //                         <tr>\
+            //                             <td scope="row">' + (index + 1) + '</td>\
+            //                             <td scope="row">' + user.name + '</td>\
+            //                             <td scope="row">' + user.email + '</td>\
+            //                             <td scope="row">' + user.countries + '</td>\
+            //                             <td scope="row">' + user.states + '</td>\
+            //                             <td scope="row">' + user.cities + '</td>\
+            //                             <td scope="row">' + user.hobbies + '</td>\
+            //                             <td scope="row">' + user.gender + '</td>\
+            //                             <td scope="row">' + user.date_of_birth + '</td>\
+            //                             <td scope="row">' + user.type + '</td>\
+            //                             <td scope="row">' + user.profiles + '</td>\
+            //                             <td scope="row">' + user.status + '</td>\
+            //                         </tr>');
+            //             });
+            //         }
+            //     });
+            // });
         });
     </script>
 @endsection
