@@ -21,7 +21,11 @@
                 </div> -->
 
             <form class="d-flex col-md-4" action=" ">
-                <input class="form-control me-2" style="float:right;" type="text" name="search" id="search"
+                <input type="date" class="form-control mx-2" id="startDate" name="startDate" placeholder="Start Date">
+
+                <input type="date" class="form-control mx-2" id="endDate" name="endDate" placeholder="End Date">
+
+                <input class="form-control me-2 mx-2" style="float:right;" type="text" name="search" id="search"
                     placeholder="Search" value="{{ $search }}">
                 <!-- <button class="btn btn-outline-info mx-2" type="submit">Search</button> -->
                 <a href="{{ url('/list') }}">
@@ -137,40 +141,45 @@
 
     <script>
     $(document).ready(function() {
-        $('#search').on('keyup', function() {
-            let query = $(this).val();
-            if (query.length === 0) {
-                // location.reload();
-                // $('#user-table').empty();
-                $('#search').val('');
+        $('#search, #startDate, #endDate').on('keyup change', function() {
+            let query = $('#search').val();
+            let startDate = $('#startDate').val();
+            let endDate = $('#endDate').val();
+
+            if (query.length === 0 && !startDate && !endDate) {
+                // Clear the table content
+                $('#user-table').empty();
+
+                // Set focus back to the search input
                 document.getElementById('search').focus();
             } else {
                 $.ajax({
                     url: "{{ route('search.suggestions') }}",
                     type: "GET",
                     data: {
-                        'query': query
+                        'query': query,
+                        'startDate': startDate,
+                        'endDate': endDate
                     },
                     success: function(data) {
                         let tableBody = $('#user-table');
                         tableBody.empty();
                         $.each(data, function(index, user) {
                             tableBody.append(`
-                                        <tr>
-                                            <td>${index + 1}</td>
-                                            <td>${user.name}</td>
-                                            <td>${user.email}</td>
-                                            <td>${user.countries}</td>
-                                            <td>${user.states}</td>
-                                            <td>${user.cities}</td>
-                                            <td>${user.hobbies}</td>
-                                            <td>${user.gender}</td>
-                                            <td>${user.date_of_birth}</td>
-                                            <td>${user.type}</td>
-                                            // <td>${user.profile}</td>
-                                            <td>${user.status}</td>
-                                        </tr>
-                                    `);
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.countries}</td>
+                                    <td>${user.states}</td>
+                                    <td>${user.cities}</td>
+                                    <td>${user.hobbies}</td>
+                                    <td>${user.gender}</td>
+                                    <td>${user.date_of_birth}</td>
+                                    <td>${user.type}</td>
+                                    <td>${user.status}</td>
+                                </tr>
+                            `);
                         });
                     }
                 });
