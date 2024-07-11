@@ -27,37 +27,7 @@ class ListController extends Controller
 
     public function searchSuggestions(Request $request)
     {
-        // $startDate = $request['startdate'];
-        $endDate = $request->input('query');
 
-        $startDate = "2024-07-01";
-        // $endDate = "2024-07-01";
-        // $search = $request->input('query');
-        $suggestions = [];
-
-        // if ($search != "") {
-
-        $users = DB::table('users')
-            ->leftJoin('countries', 'users.countries', '=', 'countries.id')
-            ->leftJoin('states', 'users.states', '=', 'states.id')
-            ->leftJoin('cities', 'users.cities', '=', 'cities.id')
-            ->where('users.date_of_birth', '>=', $startDate)
-            ->where('users.date_of_birth', '<=', $endDate)
-            ->select(
-                'users.id',
-                'users.name as user_name',
-                'users.email',
-                'countries.name as countries_name',
-                'states.name as states_name',
-                'cities.name as cities_name',
-                'users.hobbies',
-                'users.gender',
-                'users.date_of_birth',
-                'users.type',
-                'users.status'
-            )
-            ->get();
-            
         // dd($users);
 
         // $users = DB::table('users')
@@ -86,6 +56,49 @@ class ListController extends Controller
         //     )
         //     ->get();
 
+        $search = $request->input('query');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+        $suggestions = [];
+
+        $query = DB::table('users')
+            ->leftJoin('countries', 'users.countries', '=', 'countries.id')
+            ->leftJoin('states', 'users.states', '=', 'states.id')
+            ->leftJoin('cities', 'users.cities', '=', 'cities.id');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('users.name', 'LIKE', "$search%")
+                    ->orWhere('users.email', 'LIKE', "$search%")
+                    ->orWhere('countries.name', 'LIKE', "$search%")
+                    ->orWhere('states.name', 'LIKE', "$search%")
+                    ->orWhere('cities.name', 'LIKE', "$search%");
+            });
+        }
+
+        if ($startDate) {
+            $query->whereDate('users.date_of_birth', '>=', $startDate);
+        }
+
+        if ($endDate) {
+            $query->whereDate('users.date_of_birth', '<=', $endDate);
+        }
+
+        $users = $query->select(
+            'users.id',
+            'users.name as user_name',
+            'users.email',
+            'countries.name as countries_name',
+            'states.name as states_name',
+            'cities.name as cities_name',
+            'users.hobbies',
+            'users.gender',
+            'users.date_of_birth',
+            'users.type',
+            'users.status'
+        )->get();
+
+        // dd($users);
 
         foreach ($users as $user) {
 

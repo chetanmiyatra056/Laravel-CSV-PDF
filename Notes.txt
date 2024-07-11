@@ -27,6 +27,8 @@ php artisan make:controller Frontend\UserlogoutController
 
 php artisan make:controller Frontend\ListController
 
+php artisan make:controller Frontend\ApiController
+
 
 // Update migrate
 php artisan migrate

@@ -21,24 +21,22 @@
                 </div>
 
                 <form class="d-flex col-md-6" action="">
-
                     <div class="mx-2">
+
                         <label for="">Start Date:</label>
-                        <input class="form-control me-2" style="float:right;" type="date" name="startdate" id="startdate"
-                            placeholder="DD-MM-YYYY">
+                        <input class="form-control me-2" style="float:right;" type="date" name="startDate" id="startDate" placeholder="DD-MM-YYYY">
                     </div>
 
                     <div class="mx-2">
                         <label for="">End Date:</label>
-                        <input class="form-control me-2" style="float:right;" type="date" name="enddate" id="enddate"
-                            placeholder="DD-MM-YYYY">
+                        <input class="form-control me-2" style="float:right;" type="date" name="endDate" id="endDate" placeholder="DD-MM-YYYY">
                     </div>
 
-                    {{-- <div class="mx-2">
+                    <div class="mx-2">
                         <label for="">Search:</label>
                         <input class="form-control me-2" style="float:right;" type="text" name="search" id="search"
                             placeholder="Search" value="">
-                    </div> --}}
+                    </div>
 
                     {{-- <button class="btn btn-outline-info mx-2 mt-4" type="submit">Search</button> --}}
 
@@ -215,72 +213,79 @@
         $(document).ready(function() {
 
             var today = new Date().toISOString().split('T')[0];
-            document.getElementById("startdate").setAttribute("max", today);
-            document.getElementById("enddate").setAttribute("max", today);
+            document.getElementById("startDate").setAttribute("max", today);
+            document.getElementById("endDate").setAttribute("max", today);
 
-            $('#enddate').on('keyup', function() {
-                let query = $(this).val();
+            $('#search, #startDate, #endDate').on('keyup change', function() {
+                let query = $('#search').val();
+                let startDate = $('#startDate').val();
+                let endDate = $('#endDate').val();
+
                 $.ajax({
                     url: "{{ route('search.suggestions') }}",
                     type: "GET",
                     data: {
-                        'query': query
+                        'query': query,
+                        'startDate': startDate,
+                        'endDate': endDate
                     },
                     success: function(data) {
                         let tableBody = $('#user-table');
                         tableBody.empty();
                         $.each(data, function(index, user) {
-                            tableBody.append('\
-                            <tr>\
-                                <td scope="row">' + (index + 1) + '</td>\
-                                <td scope="row">' + user.name + '</td>\
-                                <td scope="row">' + user.email + '</td>\
-                                <td scope="row">' + user.countries + '</td>\
-                                <td scope="row">' + user.states + '</td>\
-                                <td scope="row">' + user.cities + '</td>\
-                                <td scope="row">' + user.hobbies + '</td>\
-                                <td scope="row">' + user.gender + '</td>\
-                                <td scope="row">' + user.date_of_birth + '</td>\
-                                <td scope="row">' + user.type + '</td>\
-                                <td scope="row">' + user.profiles + '</td>\
-                                <td scope="row">' + user.status + '</td>\
-                            </tr>');
+                            tableBody.append(`
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.countries}</td>
+                                    <td>${user.states}</td>
+                                    <td>${user.cities}</td>
+                                    <td>${user.hobbies}</td>
+                                    <td>${user.gender}</td>
+                                    <td>${user.date_of_birth}</td>
+                                    <td>${user.type}</td>
+                                    <td>${user.profiles}</td>
+                                    <td>${user.status}</td>
+                                </tr>
+                            `);
                         });
                     }
                 });
-            })
+            });
 
-            // $('#search').on('keyup', function() {
-            //     let query = $(this).val();
-            //     $.ajax({
-            //         url: "{{ route('search.suggestions') }}",
-            //         type: "GET",
-            //         data: {
-            //             'query': query
-            //         },
-            //         success: function(data) {
-            //             let tableBody = $('#user-table');
-            //             tableBody.empty();
-            //             $.each(data, function(index, user) {
-            //                 tableBody.append('\
-            //                         <tr>\
-            //                             <td scope="row">' + (index + 1) + '</td>\
-            //                             <td scope="row">' + user.name + '</td>\
-            //                             <td scope="row">' + user.email + '</td>\
-            //                             <td scope="row">' + user.countries + '</td>\
-            //                             <td scope="row">' + user.states + '</td>\
-            //                             <td scope="row">' + user.cities + '</td>\
-            //                             <td scope="row">' + user.hobbies + '</td>\
-            //                             <td scope="row">' + user.gender + '</td>\
-            //                             <td scope="row">' + user.date_of_birth + '</td>\
-            //                             <td scope="row">' + user.type + '</td>\
-            //                             <td scope="row">' + user.profiles + '</td>\
-            //                             <td scope="row">' + user.status + '</td>\
-            //                         </tr>');
-            //             });
-            //         }
-            //     });
-            // });
         });
+
+        // $('#search').on('keyup', function() {
+        //     let query = $(this).val();
+        //     $.ajax({
+        //         url: "{{ route('search.suggestions') }}",
+        //         type: "GET",
+        //         data: {
+        //             'query': query
+        //         },
+        //         success: function(data) {
+        //             let tableBody = $('#user-table');
+        //             tableBody.empty();
+        //             $.each(data, function(index, user) {
+        //                 tableBody.append('\
+        //                         <tr>\
+        //                             <td scope="row">' + (index + 1) + '</td>\
+        //                             <td scope="row">' + user.name + '</td>\
+        //                             <td scope="row">' + user.email + '</td>\
+        //                             <td scope="row">' + user.countries + '</td>\
+        //                             <td scope="row">' + user.states + '</td>\
+        //                             <td scope="row">' + user.cities + '</td>\
+        //                             <td scope="row">' + user.hobbies + '</td>\
+        //                             <td scope="row">' + user.gender + '</td>\
+        //                             <td scope="row">' + user.date_of_birth + '</td>\
+        //                             <td scope="row">' + user.type + '</td>\
+        //                             <td scope="row">' + user.profiles + '</td>\
+        //                             <td scope="row">' + user.status + '</td>\
+        //                         </tr>');
+        //             });
+        //         }
+        //     });
+        // });
     </script>
 @endsection
