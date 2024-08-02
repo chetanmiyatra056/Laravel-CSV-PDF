@@ -1,0 +1,94 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Laravel API",
+    "collectionId": "90f56b09-7341-4265-bfe9-f51ac258262a",
+    "dateExported": "2024-07-12T07:26:44.899Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "cff91d36-4277-4b99-8e24-b24923e67d6f",
+            "colId": "90f56b09-7341-4265-bfe9-f51ac258262a",
+            "containerId": "",
+            "name": "Test API",
+            "url": "http://127.0.0.1:8000/api/test",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-07-12T06:01:37.497Z",
+            "modified": "2024-07-12T06:01:37.497Z",
+            "headers": []
+        },
+        {
+            "_id": "d65ce715-0ad8-43f6-b319-95f662c98016",
+            "colId": "90f56b09-7341-4265-bfe9-f51ac258262a",
+            "containerId": "",
+            "name": "Get Users",
+            "url": "http://127.0.0.1:8000/api/users/13",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-07-12T06:02:06.858Z",
+            "modified": "2024-07-12T06:25:09.966Z",
+            "headers": []
+        },
+        {
+            "_id": "12bc933d-7eba-4c8e-bbd6-d63732bcc6e1",
+            "colId": "90f56b09-7341-4265-bfe9-f51ac258262a",
+            "containerId": "",
+            "name": "Insert Record",
+            "url": "http://127.0.0.1:8000/api/users",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-07-12T06:26:17.955Z",
+            "modified": "2024-07-12T07:26:14.947Z",
+            "headers": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "abcd"
+                    },
+                    {
+                        "name": "email",
+                        "value": "abcds@gmail.com"
+                    },
+                    {
+                        "name": "password",
+                        "value": "1234"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "4804a3d7-82c7-4e9c-b417-abb8fd583652",
+            "colId": "90f56b09-7341-4265-bfe9-f51ac258262a",
+            "containerId": "",
+            "name": "Update Record",
+            "url": "http://127.0.0.1:8000/api/users/20",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-07-12T06:53:37.436Z",
+            "modified": "2024-07-12T07:08:38.917Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"abc\",\n  \"email\":\"abc@gmail.com\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "fb4b8c51-912a-40fd-89fb-0fab2da8c03d",
+            "colId": "90f56b09-7341-4265-bfe9-f51ac258262a",
+            "containerId": "",
+            "name": "Delete Record",
+            "url": "http://127.0.0.1:8000/api/users/13",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-07-12T07:11:21.703Z",
+            "modified": "2024-07-12T07:18:57.200Z",
+            "headers": []
+        }
+    ],
+    "ref": "x7g1WaIIv8JLEoJdTZz_AA9eIIyt1TNCoZG2tWLPuy0yxO90jqrZDVkYWxMytjAKtdawVcGsamzv2sm4ZgMyKw"
+}

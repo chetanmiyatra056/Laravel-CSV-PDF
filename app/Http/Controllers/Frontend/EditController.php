@@ -64,5 +64,7 @@ class EditController extends Controller
         } else {
             return redirect('/profile')->with('error', 'Update Not successful!');
         }
+
+        
     }
 }

@@ -27,7 +27,11 @@ php artisan make:controller Frontend\UserlogoutController
 
 php artisan make:controller Frontend\ListController
 
-php artisan make:controller Frontend\ApiController
+
+// Api
+php artisan make:controller Api\TestController
+
+php artisan make:controller Api\UserController
 
 
 // Update migrate
